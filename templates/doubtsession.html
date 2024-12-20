@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Doubt Session - Code Mingle</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fira Code', monospace;
+            color: #d4d4d4;
+            background-color: #1e1e1e;
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Cpath d="M10,30 L30,50 L50,30 L70,50 L90,30 L110,50 L130,30" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1" fill="transparent" /%3E%3Ccircle cx="20" cy="80" r="6" fill="rgba(255, 255, 255, 0.3)" /%3E%3Ccircle cx="40" cy="100" r="5" fill="rgba(255, 255, 255, 0.3)" /%3E%3Ccircle cx="60" cy="120" r="4" fill="rgba(255, 255, 255, 0.2)" /%3E%3Cpath d="M100,150 L140,130 L180,150" stroke="rgba(255, 255, 255, 0.1)" stroke-width="2" fill="transparent" /%3E%3Cpath d="M120,70 Q150,100 170,60" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" fill="transparent" /%3E%3Ctext x="50" y="50" font-family="Arial" font-size="14" fill="rgba(255, 255, 255, 0.4)">Laptop</text>%3C/svg%3E');
+            background-repeat: repeat;
+            background-size: 40px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .form-container {
+            background-color: #2d2d2d;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 900px;
+            margin: 2rem;
+        }
+
+        .form-container h1 {
+            text-align: center;
+            color: #569cd6;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            color: #ffffff;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1rem;
+            background-color: #333;
+            color: #ffffff;
+            border: 1px solid #444;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #3794ff;
+            box-shadow: 0 0 8px rgba(55, 148, 255, 0.5);
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 1rem;
+            background-color: #3794ff;
+            color: #ffffff;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #3a96dd;
+            transform: scale(1.05);
+        }
+
+        button[type="submit"]:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 600px) {
+            .form-container {
+                width: 90%;
+            }
+
+            input, select, textarea, button[type="submit"] {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Create a Coding Doubt Session</h1>
+        <form id="createDoubtSessionForm" method="POST" action="{% url 'create_doubt_session' %}">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="title">Session Title</label>
+                <input type="text" id="title" name="title" required placeholder="Enter the session title">
+                <div id="titleError" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Session Description</label>
+                <textarea id="description" name="description" required placeholder="Describe the coding doubt or issue" rows="4"></textarea>
+                <div id="descriptionError" class="error-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="skills_needed">Skills Needed</label>
+                <select id="skills_needed" name="skills_needed" required>
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="java">Java</option>
+                    <option value="html-css">HTML/CSS</option>
+                    <!-- Add more skills as necessary -->
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="doubt_type">Doubt Type</label>
+                <select id="doubt_type" name="doubt_type" required>
+                    <option value="syntax">Syntax Issue</option>
+                    <option value="logic">Logic Issue</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <button type="submit">Create Session</button>
+        </form>
+    </div>
+
+    <script>
+        // JavaScript validation for creating doubt session form
+        const form = document.getElementById('createDoubtSessionForm');
+        const titleInput = document.getElementById('title');
+        const descriptionInput = document.getElementById('description');
+        const titleError = document.getElementById('titleError');
+        const descriptionError = document.getElementById('descriptionError');
+
+        form.addEventListener('submit', function(event) {
+            let formIsValid = true;
+
+            // Validate session title
+            if (titleInput.value.trim() === "") {
+                titleError.textContent = "Session title is required.";
+                formIsValid = false;
+            } else {
+                titleError.textContent = "";
+            }
+
+            // Validate session description
+            if (descriptionInput.value.trim() === "") {
+                descriptionError.textContent = "Session description is required.";
+                formIsValid = false;
+            } else {
+                descriptionError.textContent = "";
+            }
+
+            if (!formIsValid) {
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore - Code Mingle</title>
+    <style>
+         * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Fira Code', monospace;
+            color: #d4d4d4;
+            background-color: #1e1e1e;
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"%3E%3Cpath d="M10,30 L30,50 L50,30 L70,50 L90,30 L110,50 L130,30" stroke="rgba(255, 255, 255, 0.2)" stroke-width="1" fill="transparent" /%3E%3Ccircle cx="20" cy="80" r="6" fill="rgba(255, 255, 255, 0.3)" /%3E%3Ccircle cx="40" cy="100" r="5" fill="rgba(255, 255, 255, 0.3)" /%3E%3Ccircle cx="60" cy="120" r="4" fill="rgba(255, 255, 255, 0.2)" /%3E%3Cpath d="M100,150 L140,130 L180,150" stroke="rgba(255, 255, 255, 0.1)" stroke-width="2" fill="transparent" /%3E%3Cpath d="M120,70 Q150,100 170,60" stroke="rgba(255, 255, 255, 0.1)" stroke-width="1" fill="transparent" /%3E%3Ctext x="50" y="50" font-family="Arial" font-size="14" fill="rgba(255, 255, 255, 0.4)">Laptop</text>%3C/svg%3E');
+            background-repeat: repeat;
+            background-size: 40px 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .profile-container {
+            background-color: #2d2d2d;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 900px;
+            margin: 2rem;
+        }
+
+        .profile-header h1 {
+            text-align: center;
+            color: #569cd6;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .profile-details {
+            margin-top: 2rem;
+        }
+
+        .field {
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+            color: #ffffff;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 0.8rem;
+            font-size: 1rem;
+            background-color: #333;
+            color: #ffffff;
+            border: 1px solid #444;
+            border-radius: 5px;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #3794ff;
+            box-shadow: 0 0 8px rgba(55, 148, 255, 0.5);
+        }
+
+        .explore-btn {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.5rem;
+        }
+
+        .explore-btn button {
+            width: 48%;
+            padding: 1rem;
+            background-color: #3794ff;
+            color: #ffffff;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .explore-btn button:hover {
+            background-color: #3a96dd;
+            transform: scale(1.05);
+        }
+
+        .explore-btn button:active {
+            transform: scale(0.95);
+        }
+
+        .user-list {
+            margin-top: 2rem;
+        }
+
+        .user-profile {
+            background-color: #333;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .user-profile h2 {
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+            font-size: 1.5rem;
+        }
+
+        .user-profile p {
+            color: #bbbbbb;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-profile button {
+            padding: 0.8rem 1.5rem;
+            background-color: #3794ff;
+            color: #ffffff;
+            font-size: 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .user-profile button:hover {
+            background-color: #3a96dd;
+            transform: scale(1.05);
+        }
+
+        .user-profile button:active {
+            transform: scale(0.95);
+        }
+
+        @media (max-width: 600px) {
+            .profile-container {
+                width: 90%;
+            }
+
+            input, select, .explore-btn button {
+                font-size: 1rem;
+            }
+
+            .explore-btn {
+                flex-direction: column;
+            }
+
+            .explore-btn button {
+                width: 100%;
+                margin-bottom: 0.5rem;
+            }
+
+            .user-profile {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            <h1>Explore Users</h1>
+        </div>
+
+        <div class="profile-details">
+            <div class="field">
+                <label for="search">Search Users</label>
+                <input type="text" id="search" name="search" placeholder="Search by username, skills, etc.">
+            </div>
+
+            <div class="field">
+                <label for="skills">Filter by Skills</label>
+                <select id="skills" name="skills">
+                    <option value="">Select Skill</option>
+                    <option value="python">Python</option>
+                    <option value="javascript">JavaScript</option>
+                    <option value="java">Java</option>
+                    <option value="html-css">HTML/CSS</option>
+                </select>
+            </div>
+
+            <div class="explore-btn">
+                <button type="button">View Profile</button>
+                <button type="button" onclick="startDoubtSession()">Start Chat</button>
+            </div>
+
+            <!-- Dynamically render the list of users -->
+            <div class="user-list">
+                {% for user in user_profiles %}
+                    <div class="user-profile">
+                        <h2>{{ user.user.username }}</h2>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                        <p><strong>GitHub:</strong> <a href="{{ user.github_url }}" target="_blank">{{ user.github_url }}</a></p>
+                        <button type="button">Connect</button>
+                    </div>
+                {% empty %}
+                    <p>No users found.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>

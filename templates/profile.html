@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - Code Mingle</title>
+    <style>
+        body {
+            font-family: 'Fira Code', monospace;
+            color: #d4d4d4;
+            background-color: #1e1e1e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .profile-container {
+            background-color: #2d2d2d;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #569cd6;
+            margin-bottom: 1rem;
+        }
+
+        ul {
+            text-align: left;
+            margin: 1rem 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        li {
+            margin: 0.5rem 0;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <h1 id="usernameDisplay">Welcome!</h1>
+    <h2>Your Interests</h2>
+    <ul id="interestsList"></ul>
+
+    <h2>Tech Stacks You Know</h2>
+    <ul id="techStacksList"></ul>
+
+    <h2>Favorite YouTube Teachers</h2>
+    <ul id="youtubeTeachersList"></ul>
+</div>
+
+<script>
+    // Load data from local storage
+    const username = localStorage.getItem('username');
+    const codingInterests = JSON.parse(localStorage.getItem('codingInterests')) || [];
+    const techStacks = JSON.parse(localStorage.getItem('techStacks')) || [];
+    const youtubeTeachers = JSON.parse(localStorage.getItem('youtubeTeachers')) || [];
+
+    // Display username
+    document.getElementById('usernameDisplay').textContent = `Welcome, ${username || 'User'}!`;
+
+    // Populate lists
+    const interestsList = document.getElementById('interestsList');
+    codingInterests.forEach(interest => {
+        const li = document.createElement('li');
+        li.textContent = interest;
+        interestsList.appendChild(li);
+    });
+
+    const techStacksList = document.getElementById('techStacksList');
+    techStacks.forEach(stack => {
+        const li = document.createElement('li');
+        li.textContent = stack;
+        techStacksList.appendChild(li);
+    });
+
+    const youtubeTeachersList = document.getElementById('youtubeTeachersList');
+    youtubeTeachers.forEach(teacher => {
+        const li = document.createElement('li');
+        li.textContent = teacher;
+        youtubeTeachersList.appendChild(li);
+    });
+</script>
+
+</body>
+</html>
